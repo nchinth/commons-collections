@@ -96,6 +96,7 @@
             <batchtest fork="yes" todir="${build.home}/test-reports" unless="test.entry">
                 <fileset dir="${test.home}">
                     <include name="**/*Test.java"/>
+                    <include name="${test.home1}/**/Test.java/"/>
                     <exclude name="**/*$*"/>
                     <exclude name="**/TestUtils.java"/>
                     <exclude name="**/Abstract*.java"/>
