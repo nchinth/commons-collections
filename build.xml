@@ -69,11 +69,18 @@
 
     <target name="compile.tests" depends="compile" description="Compile unit test cases">
         <mkdir dir="${build.home}/tests"/>
+        <mkdir dir="${build.home}/tests1"/>
         <javac srcdir="${test.home}" destdir="${build.home}/tests" debug="${compile.debug}" deprecation="off" target="${compile.target}" source="${compile.source}" optimize="${compile.optimize}" includeantruntime="false" encoding="${compile.encoding}">
             <classpath refid="test.classpath"/>
         </javac>
         <copy todir="${build.home}/tests" filtering="on">
             <fileset dir="${test.home}" excludes="**/*.java"/>
+        </copy>
+        <javac srcdir="${test.home1}" destdir="${build.home}/tests1" debug="${compile.debug}" deprecation="off" target="${compile.target}" source="${compile.source}" optimize="${compile.optimize}" includeantruntime="false" encoding="${compile.encoding}">
+            <classpath refid="test.classpath"/>
+        </javac>
+        <copy todir="${build.home}/tests1" filtering="on">
+            <fileset dir="${test.home1}" excludes="**/*.java"/>
         </copy>
     </target>
 
@@ -88,6 +95,14 @@
             <test name="${test.entry}" todir="${build.home}/test-reports" if="test.entry"/>
             <batchtest fork="yes" todir="${build.home}/test-reports" unless="test.entry">
                 <fileset dir="${test.home}">
+                    <include name="**/*Test.java"/>
+                    <include name="${test.home1}/**/Test.java/"/>
+                    <exclude name="**/*$*"/>
+                    <exclude name="**/TestUtils.java"/>
+                    <exclude name="**/Abstract*.java"/>
+                    <exclude name="**/BulkTest.java"/>
+                </fileset>
+                  <fileset dir="${test.home1}">
                     <include name="**/*Test.java"/>
                     <exclude name="**/*$*"/>
                     <exclude name="**/TestUtils.java"/>
@@ -207,6 +222,27 @@
                 <attribute name="Implementation-Vendor-Id" value="org.apache"/>
             </manifest>
             <fileset dir="${test.home}">
+                <include name="**/*.java"/>
+            </fileset>
+            <fileset dir="${basedir}">
+                <include name="LICENSE.txt"/>
+                <include name="NOTICE.txt"/>
+            </fileset>
+        </jar>
+    </target>
+    
+     <target name="test-jar1" depends="init" description="Create Testframework jar">
+        <jar jarfile="${build.home}/${final.name}-tests1.jar">
+            <manifest>
+                <attribute name="Specification-Title" value="Commons Collections Testframework"/>
+                <attribute name="Specification-Version" value="${component.version}"/>
+                <attribute name="Specification-Vendor" value="The Apache Software Foundation"/>
+                <attribute name="Implementation-Title" value="Commons Collections Testframework"/>
+                <attribute name="Implementation-Version" value="${component.version}"/> 
+                <attribute name="Implementation-Vendor" value="The Apache Software Foundation"/>
+                <attribute name="Implementation-Vendor-Id" value="org.apache"/>
+            </manifest>
+            <fileset dir="${test.home1}">
                 <include name="**/*.java"/>
             </fileset>
             <fileset dir="${basedir}">
