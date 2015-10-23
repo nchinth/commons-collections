@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
  * @author Nikhil
  * @version $Revision: 1.0 $
  */
-public class ObjectGraphIteratorTest {
+public class ObjectGraph1IteratorTest {
 	/**
 	 * Run the ObjectGraphIterator(Iterator<? extends E>) constructor test.
 	 *
